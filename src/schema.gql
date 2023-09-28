@@ -1,0 +1,117 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Auth {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateAccountInput {
+  email: String!
+  password: String!
+}
+
+input CreateCustomerInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateItemInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateTransactionInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+}
+
+type Customer {
+  email: String
+  id: Int!
+  name: String
+  phone: String
+  posts: [Transaction]
+  transactions: [Transaction!]!
+}
+
+type Item {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type LoginResponse {
+  accessToken: String!
+  user: User!
+}
+
+type Mutation {
+  createAccount(createAccountInput: CreateAccountInput!): Auth!
+  createCustomer(createCustomerInput: CreateCustomerInput!): Customer!
+  createItem(createItemInput: CreateItemInput!): Item!
+  createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
+  createUser(createUserInput: CreateUserInput!): User!
+  login(email: String!, password: String!): LoginResponse!
+  removeCustomer(id: Int!): Customer!
+  removeItem(id: Int!): Item!
+  removeTransaction(id: Int!): Transaction!
+  removeUser(id: Int!): User!
+  updateCustomer(updateCustomerInput: UpdateCustomerInput!): Customer!
+  updateItem(updateItemInput: UpdateItemInput!): Item!
+  updateTransaction(updateTransactionInput: UpdateTransactionInput!): Transaction!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type Query {
+  customer(id: Int!): Customer!
+  customers: [Customer!]!
+  item(id: Int!): Item!
+  items: [Item!]!
+  transaction(id: Int!): Transaction!
+  transactions: [Transaction!]!
+  user(id: Int!): User!
+  users: [User!]!
+}
+
+type Transaction {
+  ammount: Int!
+  customer: Customer!
+  id: Int!
+  items: [Item!]!
+}
+
+input UpdateCustomerInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateItemInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateTransactionInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateUserInput {
+  email: String
+  id: Int!
+  password: String
+}
+
+type User {
+  email: String!
+  id: Int!
+  password: String!
+}
