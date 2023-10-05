@@ -1,18 +1,33 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Customer } from 'src/customers/entities/customer.entity';
-import { Item } from 'src/items/entities/item.entity';
+import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
+import { Customer } from '../../customers/entities/customer.entity';
+import {
+  Column,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Entity,
+} from 'typeorm';
+import { TransactionItem } from '../../transaction-item/entities/transaction-item.entity';
 
 @ObjectType()
+@Entity()
 export class Transaction {
-  @Field((type) => Int)
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  @Field(() => ID)
+  id: string;
 
-  @Field((type) => Int)
-  ammount: string;
+  @Column()
+  @Field(() => Int)
+  ammount: number;
 
-  @Field((type) => [Item], { nullable: false })
-  items: Item[];
+  @Field(() => [TransactionItem], { nullable: false })
+  @OneToMany(
+    () => TransactionItem,
+    (transactionItem) => transactionItem.transaction,
+  )
+  transactionItems: TransactionItem[];
 
-  @Field((type) => Customer, { nullable: false })
+  @Field(() => Customer, { nullable: false })
+  @ManyToOne(() => Customer, (customer) => customer.transactions)
   customer: number;
 }

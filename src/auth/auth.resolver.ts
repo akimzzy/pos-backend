@@ -1,28 +1,31 @@
-import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
+import { Mutation, Args, Context, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { Auth } from './entities/auth.entity';
-import { Request, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import {
+  ClassSerializerInterceptor,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CreateAccountInput } from './dto/create-auth.input';
-import { User } from 'src/users/entities/user.entity';
 import { LocalAuthGuard } from './local-auth.guard';
 import { LoginResponse } from './responses/login.response';
 
-@Resolver(() => Auth)
+@Resolver()
+@UseInterceptors(ClassSerializerInterceptor)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
   @Mutation(() => LoginResponse)
   async login(
-    @Args('email') email: string,
-    @Args('password') password: string,
+    @Args('email') _email: string,
+    @Args('password') _password: string,
     @Context() context,
   ) {
     return this.authService.login(context.req.user);
   }
 
-  @Mutation(() => Auth)
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Mutation(() => LoginResponse)
   async createAccount(
     @Args('createAccountInput') createAccountInput: CreateAccountInput,
   ) {

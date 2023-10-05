@@ -5,6 +5,7 @@ import { UpdateCustomerInput } from './dto/update-customer.input';
 @Injectable()
 export class CustomersService {
   create(createCustomerInput: CreateCustomerInput) {
+    createCustomerInput;
     return 'This action adds a new customer';
   }
 
@@ -17,6 +18,7 @@ export class CustomersService {
   }
 
   update(id: number, updateCustomerInput: UpdateCustomerInput) {
+    updateCustomerInput;
     return `This action updates a #${id} customer`;
   }
 

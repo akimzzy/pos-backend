@@ -5,6 +5,7 @@ import { UpdateItemInput } from './dto/update-item.input';
 @Injectable()
 export class ItemsService {
   create(createItemInput: CreateItemInput) {
+    createItemInput;
     return 'This action adds a new item';
   }
 
@@ -17,6 +18,7 @@ export class ItemsService {
   }
 
   update(id: number, updateItemInput: UpdateItemInput) {
+    updateItemInput;
     return `This action updates a #${id} item`;
   }
 

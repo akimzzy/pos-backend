@@ -5,6 +5,7 @@ import { UpdateTransactionInput } from './dto/update-transaction.input';
 @Injectable()
 export class TransactionsService {
   create(createTransactionInput: CreateTransactionInput) {
+    createTransactionInput;
     return 'This action adds a new transaction';
   }
 
@@ -16,11 +17,12 @@ export class TransactionsService {
     return `This action returns a #${id} transaction`;
   }
 
-  findByCustomer(id: number) {
+  findByCustomer(id: string) {
     return `This action returns a #${id} customer`;
   }
 
   update(id: number, updateTransactionInput: UpdateTransactionInput) {
+    updateTransactionInput;
     return `This action updates a #${id} transaction`;
   }
 
