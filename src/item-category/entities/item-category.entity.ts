@@ -1,5 +1,13 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Item } from '../../items/entities/item.entity';
 
 @Entity()
 @ObjectType()
@@ -11,4 +19,16 @@ export class ItemCategory {
   @Column()
   @Field(() => String)
   name: string;
+
+  @ManyToOne(() => User, (user) => user.categories)
+  @Field(() => User)
+  user: User;
+
+  @Field(() => [Item], { nullable: true })
+  @ManyToMany(() => Item)
+  item: Item[];
+
+  constructor(partial: Partial<ItemCategory> = {}) {
+    Object.assign(this, partial);
+  }
 }

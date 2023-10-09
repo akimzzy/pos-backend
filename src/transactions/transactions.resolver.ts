@@ -4,7 +4,7 @@ import { Transaction } from './entities/transaction.entity';
 import { CreateTransactionInput } from './dto/create-transaction.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { UseGuards } from '@nestjs/common';
-import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard } from '../auth/gql-auth.guard';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(() => Transaction)

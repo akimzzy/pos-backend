@@ -21,8 +21,8 @@ export class Variant {
   @Field(() => String)
   name: string;
 
-  @Column()
-  @Field(() => Int)
+  @Column({ nullable: true })
+  @Field(() => Int, { nullable: true })
   quantity: number;
 
   @Column()
@@ -39,4 +39,8 @@ export class Variant {
   )
   @Field(() => [TransactionItem])
   transactionItems: TransactionItem[];
+
+  constructor(partial: Partial<Variant>) {
+    Object.assign(this, partial);
+  }
 }

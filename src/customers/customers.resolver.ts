@@ -11,8 +11,8 @@ import { CustomersService } from './customers.service';
 import { Customer } from './entities/customer.entity';
 import { CreateCustomerInput } from './dto/create-customer.input';
 import { UpdateCustomerInput } from './dto/update-customer.input';
-import { TransactionsService } from 'src/transactions/transactions.service';
-import { Transaction } from 'src/transactions/entities/transaction.entity';
+import { TransactionsService } from '../transactions/transactions.service';
+import { Transaction } from '../transactions/entities/transaction.entity';
 
 @Resolver(() => Customer)
 export class CustomersResolver {

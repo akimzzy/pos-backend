@@ -3,7 +3,7 @@ import { BranchesService } from './branches.service';
 import { BranchesResolver } from './branches.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Branch } from './entities/branch.entity';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Branch]), UsersModule],

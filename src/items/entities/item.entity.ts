@@ -4,12 +4,14 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { ItemCategory } from '../../item-category/entities/item-category.entity';
 import { Variant } from './variant.entity';
+import { User } from '../../users/entities/user.entity';
 
 @ObjectType()
 @Entity()
@@ -22,6 +24,15 @@ export class Item {
   @Field(() => String)
   name: string;
 
+  @Column({ nullable: true })
+  @Field(() => String, { nullable: true })
+  description: string;
+
+  @ManyToOne(() => User)
+  @Field(() => User)
+  user: User;
+
+  @Field(() => [ItemCategory], { nullable: true })
   @ManyToMany(() => ItemCategory)
   @JoinTable()
   categories: ItemCategory[];
@@ -29,4 +40,8 @@ export class Item {
   @OneToMany(() => Variant, (variant) => variant.item)
   @Field(() => [Variant])
   variants: Variant[];
+
+  constructor(partial: Partial<Item>) {
+    Object.assign(this, partial);
+  }
 }

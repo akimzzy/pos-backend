@@ -3,29 +3,49 @@ import { ItemsService } from './items.service';
 import { Item } from './entities/item.entity';
 import { CreateItemInput } from './dto/create-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
+import {
+  ClassSerializerInterceptor,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { GqlAuthGuard } from '../auth/gql-auth.guard';
+import { CurrentUser } from '../auth/auth-user.decorator';
+import { User } from '../users/entities/user.entity';
 
+@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(GqlAuthGuard)
 @Resolver(() => Item)
 export class ItemsResolver {
   constructor(private readonly itemsService: ItemsService) {}
 
   @Mutation(() => Item)
-  createItem(@Args('createItemInput') createItemInput: CreateItemInput) {
-    return this.itemsService.create(createItemInput);
+  createItem(
+    @CurrentUser() user: User,
+    @Args('createItemInput') createItemInput: CreateItemInput,
+  ) {
+    return this.itemsService.create({ ...createItemInput, userId: user.id });
   }
 
   @Query(() => [Item], { name: 'items' })
-  findAll() {
-    return this.itemsService.findAll();
+  findAll(@CurrentUser() user: User) {
+    return this.itemsService.findAll(user);
   }
 
   @Query(() => Item, { name: 'item' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(
+    @CurrentUser() user: User,
+    @Args('id', { type: () => String }) id: string,
+  ) {
     return this.itemsService.findOne(id);
   }
 
   @Mutation(() => Item)
-  updateItem(@Args('updateItemInput') updateItemInput: UpdateItemInput) {
-    return this.itemsService.update(updateItemInput.id, updateItemInput);
+  updateItem(
+    @CurrentUser() user: User,
+    @Args('updateItemInput') updateItemInput: UpdateItemInput,
+    @Args('id') id: string,
+  ) {
+    return this.itemsService.update(id, updateItemInput, user);
   }
 
   @Mutation(() => Item)

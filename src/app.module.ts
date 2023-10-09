@@ -29,19 +29,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         autoLoadEntities: true,
       }),
       inject: [ConfigService],
-
-      // synchronize: true,
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   host: 'localhost',
-    //   port: 5432,
-    //   username: 'aao',
-    //   password: '',
-    //   database: 'pos',
-    //   autoLoadEntities: true,
-    //   // synchronize: true,
-    // }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),

@@ -3,6 +3,8 @@ import { ItemCategoryService } from './item-category.service';
 import { ItemCategory } from './entities/item-category.entity';
 import { CreateItemCategoryInput } from './dto/create-item-category.input';
 import { UpdateItemCategoryInput } from './dto/update-item-category.input';
+import { CurrentUser } from '../auth/auth-user.decorator';
+import { User } from '../users/entities/user.entity';
 
 @Resolver(() => ItemCategory)
 export class ItemCategoryResolver {
@@ -10,10 +12,11 @@ export class ItemCategoryResolver {
 
   @Mutation(() => ItemCategory)
   createItemCategory(
+    @CurrentUser() user: User,
     @Args('createItemCategoryInput')
     createItemCategoryInput: CreateItemCategoryInput,
   ) {
-    return this.itemCategoryService.create(createItemCategoryInput);
+    return this.itemCategoryService.create(user, createItemCategoryInput);
   }
 
   @Query(() => [ItemCategory], { name: 'itemCategory' })

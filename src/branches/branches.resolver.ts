@@ -3,7 +3,7 @@ import { BranchesService } from './branches.service';
 import { Branch } from './entities/branch.entity';
 import { CreateBranchInput } from './dto/create-branch.input';
 import { UpdateBranchInput } from './dto/update-branch.input';
-import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard } from '../auth/gql-auth.guard';
 import {
   ClassSerializerInterceptor,
   UseGuards,

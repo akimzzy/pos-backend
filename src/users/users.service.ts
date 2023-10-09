@@ -1,17 +1,17 @@
 import {
   BadGatewayException,
-  BadRequestException,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly dataSource: DataSource,
+    private readonly manager: EntityManager,
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
@@ -35,10 +35,10 @@ export class UsersService {
     }
   }
 
-  async findOne(id: string) {
-    const user = await this.usersRepository.findOne({ where: { id } });
+  async findOne(id: string, manager: EntityManager = this.manager) {
+    const user = await manager.findOne(User, { where: { id } });
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new UnauthorizedException('User not found');
     }
     return user;
   }

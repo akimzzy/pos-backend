@@ -4,9 +4,17 @@ import { ItemsResolver } from './items.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Item } from './entities/item.entity';
 import { Variant } from './entities/variant.entity';
+import { VariantService } from './variant.service';
+import { UsersModule } from '../users/users.module';
+import { ItemCategoryModule } from '../item-category/item-category.module';
+import { VariantResolver } from './variant.resolver';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Item, Variant])],
-  providers: [ItemsResolver, ItemsService],
+  imports: [
+    TypeOrmModule.forFeature([Item, Variant]),
+    UsersModule,
+    ItemCategoryModule,
+  ],
+  providers: [ItemsResolver, ItemsService, VariantService, VariantResolver],
 })
 export class ItemsModule {}

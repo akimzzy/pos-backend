@@ -5,8 +5,8 @@ import { Branch } from './entities/branch.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
-import { DeleteResponse } from 'src/utils/responses/delete-enitity.response';
-import { UsersService } from 'src/users/users.service';
+import { DeleteResponse } from '../utils/responses/delete-enitity.response';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class BranchesService {
