@@ -39,14 +39,14 @@ export class ItemsService {
         { name: categoryName },
         manager,
       );
-      const item = new Item({ name, description, user });
+      const item = new Item({ name, description, user, categories: [] });
       await manager.save(item);
       const variants = await this.variantService.create(
         item.id,
         variantsInput,
         manager,
       );
-      item.categories = [category];
+      item.categories.push(category);
       await manager.save(item);
       item.variants = variants;
       return item;

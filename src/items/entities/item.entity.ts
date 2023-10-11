@@ -33,7 +33,9 @@ export class Item {
   user: User;
 
   @Field(() => [ItemCategory], { nullable: true })
-  @ManyToMany(() => ItemCategory)
+  @ManyToMany(() => ItemCategory, (category) => category.items, {
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   categories: ItemCategory[];
 

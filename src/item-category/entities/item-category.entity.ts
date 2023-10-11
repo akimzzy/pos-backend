@@ -25,10 +25,10 @@ export class ItemCategory {
   user: User;
 
   @Field(() => [Item], { nullable: true })
-  @ManyToMany(() => Item)
-  item: Item[];
+  @ManyToMany(() => Item, (item) => item.categories, { onDelete: 'CASCADE' })
+  items: Item[];
 
-  constructor(partial: Partial<ItemCategory> = {}) {
+  constructor(partial: Partial<ItemCategory>) {
     Object.assign(this, partial);
   }
 }

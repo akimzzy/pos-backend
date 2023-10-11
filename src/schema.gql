@@ -83,7 +83,7 @@ type Item {
 
 type ItemCategory {
   id: ID!
-  item: [Item!]
+  items: [Item!]
   name: String!
   user: User!
 }
@@ -94,6 +94,7 @@ type LoginResponse {
 }
 
 type Mutation {
+  addItemsToCategory(categoryId: String!, itemIds: [String!]!): ItemCategory!
   createAccount(createAccountInput: CreateAccountInput!): LoginResponse!
   createBranch(createBranchInput: CreateBranchInput!): Branch!
   createCustomer(createCustomerInput: CreateCustomerInput!): Customer!
@@ -106,14 +107,14 @@ type Mutation {
   removeBranch(id: String!): Branch!
   removeCustomer(id: Int!): Customer!
   removeItem(id: Int!): Item!
-  removeItemCategory(id: Int!): ItemCategory!
+  removeItemsCategory(id: String!): DeleteResponse!
   removeTransaction(id: Int!): Transaction!
   removeTransactionItem(id: Int!): TransactionItem!
   removeVariants(createVariantInput: [String!]!): DeleteResponse!
   updateBranch(updateBranchInput: UpdateBranchInput!): Branch!
   updateCustomer(updateCustomerInput: UpdateCustomerInput!): Customer!
   updateItem(id: String!, updateItemInput: UpdateItemInput!): Item!
-  updateItemCategory(updateItemCategoryInput: UpdateItemCategoryInput!): ItemCategory!
+  updateItemCategory(id: String!, updateItemCategoryInput: UpdateItemCategoryInput!): ItemCategory!
   updateTransaction(updateTransactionInput: UpdateTransactionInput!): Transaction!
   updateTransactionItem(updateTransactionItemInput: UpdateTransactionItemInput!): TransactionItem!
   updateVariant(id: String!, updateVariantInput: CreateVariantInput!): Variant!
@@ -125,7 +126,8 @@ type Query {
   customer(id: Int!): Customer!
   customers: [Customer!]!
   item(id: String!): Item!
-  itemCategory(id: Int!): ItemCategory!
+  itemCategories: [ItemCategory!]!
+  itemCategory(id: String!): ItemCategory!
   items: [Item!]!
   transaction(id: Int!): Transaction!
   transactionItem(id: Int!): TransactionItem!
@@ -161,7 +163,6 @@ input UpdateCustomerInput {
 }
 
 input UpdateItemCategoryInput {
-  id: Int!
   name: String
 }
 

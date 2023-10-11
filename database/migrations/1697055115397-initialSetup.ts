@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class InitialSetup1696681143423 implements MigrationInterface {
-    name = 'InitialSetup1696681143423'
+export class InitialSetup1697055115397 implements MigrationInterface {
+    name = 'InitialSetup1697055115397'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "item_category" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "userId" uuid, CONSTRAINT "PK_91ba90f150e8804bdaad7b17ff8" PRIMARY KEY ("id"))`);
@@ -24,7 +24,7 @@ export class InitialSetup1696681143423 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "user" ADD CONSTRAINT "FK_b58f7560cb53a5ef9bbdab8ec2f" FOREIGN KEY ("branchesId") REFERENCES "branch"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "branch" ADD CONSTRAINT "FK_f969fd357b4491268a4520e8a07" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "item_categories_item_category" ADD CONSTRAINT "FK_f65b353cd2bfede292d5c707361" FOREIGN KEY ("itemId") REFERENCES "item"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE "item_categories_item_category" ADD CONSTRAINT "FK_c525f050f301e536e3b8e1c1697" FOREIGN KEY ("itemCategoryId") REFERENCES "item_category"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
+        await queryRunner.query(`ALTER TABLE "item_categories_item_category" ADD CONSTRAINT "FK_c525f050f301e536e3b8e1c1697" FOREIGN KEY ("itemCategoryId") REFERENCES "item_category"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
