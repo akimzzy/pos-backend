@@ -6,8 +6,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { TransactionItem } from '../../transaction-item/entities/transaction-item.entity';
+import { Stock } from '../../stock/entities/stock.entity';
 
 @ObjectType()
 @Entity()
@@ -30,4 +33,20 @@ export class Transaction {
   @Field(() => Customer, { nullable: false })
   @ManyToOne(() => Customer, (customer) => customer.transactions)
   customer: number;
+
+  @OneToMany(() => Stock, (stock) => stock.transaction)
+  @Field(() => [Stock])
+  stocks: Stock[];
+
+  @CreateDateColumn({ default: new Date() })
+  @Field(() => Date)
+  createdDate: string;
+
+  @UpdateDateColumn({ default: new Date() })
+  @Field(() => Date)
+  updatedDate: Date;
+
+  constructor(partial: Partial<Transaction>) {
+    Object.assign(this, partial);
+  }
 }

@@ -1,6 +1,13 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Transaction } from '../../transactions/entities/transaction.entity';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -24,4 +31,16 @@ export class Customer {
   @OneToMany(() => Transaction, (transaction) => transaction.customer)
   @Field(() => [Transaction], { nullable: 'itemsAndList' })
   transactions?: Transaction[];
+
+  @CreateDateColumn({ default: new Date() })
+  @Field(() => Date)
+  createdDate: string;
+
+  @UpdateDateColumn({ default: new Date() })
+  @Field(() => Date)
+  updatedDate: Date;
+
+  constructor(partial: Partial<Customer>) {
+    Object.assign(this, partial);
+  }
 }

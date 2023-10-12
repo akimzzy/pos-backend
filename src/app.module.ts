@@ -14,6 +14,7 @@ import { TransactionItemModule } from './transaction-item/transaction-item.modul
 import { ItemCategoryModule } from './item-category/item-category.module';
 import { BranchesModule } from './branches/branches.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { StockModule } from './stock/stock.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     TransactionItemModule,
     ItemCategoryModule,
     BranchesModule,
+    StockModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -60,8 +60,12 @@ export class VariantService {
     }
   }
 
-  async findOne(id: string, userId?: string) {
-    const variant = await this.variantRepository.findOne({
+  async findOne(
+    id: string,
+    userId?: string,
+    manager: EntityManager = this.manager,
+  ) {
+    const variant = await manager.findOne(Variant, {
       where: { id, item: { user: { id: userId } } },
       relations: { item: { user: true } },
     });

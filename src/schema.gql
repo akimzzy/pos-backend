@@ -39,6 +39,14 @@ input CreateItemInput {
   variants: [CreateVariantInput!]
 }
 
+input CreateStockInput {
+  reason: StockReason!
+  stockQuantity: Int!
+  transactionId: ID!
+  type: StockType!
+  variantId: ID!
+}
+
 input CreateTransactionInput {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -56,11 +64,13 @@ input CreateVariantInput {
 }
 
 type Customer {
+  createdDate: DateTime!
   email: String
   id: ID!
   name: String
   phone: String
   transactions: [Transaction!]!
+  updatedDate: DateTime!
 }
 
 """
@@ -74,17 +84,21 @@ type DeleteResponse {
 
 type Item {
   categories: [ItemCategory!]
+  createdDate: DateTime!
   description: String
   id: ID!
   name: String!
+  updatedDate: DateTime!
   user: User!
   variants: [Variant!]!
 }
 
 type ItemCategory {
+  createdDate: DateTime!
   id: ID!
   items: [Item!]
   name: String!
+  updatedDate: DateTime!
   user: User!
 }
 
@@ -100,6 +114,7 @@ type Mutation {
   createCustomer(createCustomerInput: CreateCustomerInput!): Customer!
   createItem(createItemInput: CreateItemInput!): Item!
   createItemCategory(createItemCategoryInput: CreateItemCategoryInput!): ItemCategory!
+  createStock(createStockInput: CreateStockInput!): Stock!
   createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
   createTransactionItem(createTransactionItemInput: CreateTransactionItemInput!): TransactionItem!
   createVariants(createVariantsInput: [CreateVariantInput!]!, itemId: String!): [Variant!]!
@@ -129,23 +144,58 @@ type Query {
   itemCategories: [ItemCategory!]!
   itemCategory(id: String!): ItemCategory!
   items: [Item!]!
-  transaction(id: Int!): Transaction!
+  stock(variantId: String): [Stock!]!
+  transaction(id: String!): Transaction!
   transactionItem(id: Int!): TransactionItem!
   transactions: [Transaction!]!
 }
 
+type Stock {
+  balance: Int!
+  createdDate: DateTime!
+  id: ID!
+  reason: StockReason!
+  stockQuantity: Int!
+  transaction: Transaction!
+  type: StockType!
+  updatedDate: DateTime!
+  user: User!
+  variant: Variant!
+}
+
+enum StockReason {
+  DAMAGED
+  EXPIRED
+  RECEIVED
+  RETURN
+  RE_COUNT
+  SOLD
+  THEFT
+}
+
+enum StockType {
+  ADD
+  REMOVE
+  RESET
+}
+
 type Transaction {
   ammount: Int!
+  createdDate: DateTime!
   customer: Customer!
   id: ID!
+  stocks: [Stock!]!
   transactionItems: [TransactionItem!]!
+  updatedDate: DateTime!
 }
 
 type TransactionItem {
   ammount: Int!
+  createdDate: DateTime!
   id: ID!
   quantity: Int!
   transaction: Transaction!
+  updatedDate: DateTime!
   variant: Variant!
 }
 
@@ -191,14 +241,20 @@ type User {
   id: ID!
   items: [Item!]!
   password: String
+  stocks: [Stock!]!
   updatedDate: DateTime!
 }
 
 type Variant {
+  availableForSale: Boolean!
+  createdDate: DateTime!
   id: ID!
   item: Item!
   name: String!
   price: Int!
   quantity: Int
+  stockTracking: Boolean!
+  stocks: [Stock!]!
   transactionItems: [TransactionItem!]!
+  updatedDate: DateTime!
 }

@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { Item } from '../../items/entities/item.entity';
 import { ItemCategory } from '../../item-category/entities/item-category.entity';
+import { Stock } from '../../stock/entities/stock.entity';
 
 @ObjectType()
 @Entity()
@@ -40,6 +41,10 @@ export class User {
   @OneToMany(() => ItemCategory, (it) => it.user)
   @Field(() => [ItemCategory])
   categories: ItemCategory[];
+
+  @OneToMany(() => Stock, (stock) => stock.user)
+  @Field(() => [Stock])
+  stocks: Stock[];
 
   @CreateDateColumn()
   @Field(() => Date)

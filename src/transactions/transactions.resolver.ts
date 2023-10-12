@@ -25,7 +25,7 @@ export class TransactionsResolver {
   }
 
   @Query(() => Transaction, { name: 'transaction' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.transactionsService.findOne(id);
   }
 

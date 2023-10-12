@@ -2,10 +2,12 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { User } from '../../users/entities/user.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Item } from '../../items/entities/item.entity';
 
@@ -27,6 +29,14 @@ export class ItemCategory {
   @Field(() => [Item], { nullable: true })
   @ManyToMany(() => Item, (item) => item.categories, { onDelete: 'CASCADE' })
   items: Item[];
+
+  @CreateDateColumn({ default: new Date() })
+  @Field(() => Date)
+  createdDate: string;
+
+  @UpdateDateColumn({ default: new Date() })
+  @Field(() => Date)
+  updatedDate: Date;
 
   constructor(partial: Partial<ItemCategory>) {
     Object.assign(this, partial);

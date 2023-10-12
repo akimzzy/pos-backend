@@ -1,12 +1,14 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import { ItemCategory } from '../../item-category/entities/item-category.entity';
@@ -42,6 +44,14 @@ export class Item {
   @OneToMany(() => Variant, (variant) => variant.item)
   @Field(() => [Variant])
   variants: Variant[];
+
+  @CreateDateColumn({ default: new Date() })
+  @Field(() => Date)
+  createdDate: string;
+
+  @UpdateDateColumn({ default: new Date() })
+  @Field(() => Date)
+  updatedDate: Date;
 
   constructor(partial: Partial<Item>) {
     Object.assign(this, partial);
