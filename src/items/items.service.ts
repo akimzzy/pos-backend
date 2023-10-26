@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { CreateItemInput } from './dto/create-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
@@ -20,6 +22,7 @@ export class ItemsService {
     private readonly dataSource: DataSource,
     @InjectRepository(Item)
     private readonly itemRepository: Repository<Item>,
+    @Inject(forwardRef(() => VariantService))
     private readonly variantService: VariantService,
     private readonly userService: UsersService,
     private readonly categoryService: ItemCategoryService,
@@ -56,7 +59,7 @@ export class ItemsService {
   async findAll(user: User) {
     const item = await this.itemRepository.find({
       where: { user: { id: user.id } },
-      relations: { user: true, variants: true, categories: true },
+      relations: { variants: true, categories: true },
     });
     if (!item) {
       throw new NotFoundException('Item not found');

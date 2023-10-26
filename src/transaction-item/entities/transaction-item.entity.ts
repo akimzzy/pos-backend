@@ -31,13 +31,13 @@ export class TransactionItem {
 
   @Column()
   @Field(() => Int)
-  ammount: number;
+  amount: number;
 
-  @CreateDateColumn({ default: new Date() })
+  @CreateDateColumn()
   @Field(() => Date)
   createdDate: string;
 
-  @UpdateDateColumn({ default: new Date() })
+  @UpdateDateColumn()
   @Field(() => Date)
   updatedDate: Date;
 

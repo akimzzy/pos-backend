@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Transaction } from '../../transactions/entities/transaction.entity';
+import { User } from '../../users/entities/user.entity';
 import {
   Column,
   Entity,
@@ -7,6 +8,7 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @ObjectType()
@@ -16,31 +18,39 @@ export class Customer {
   @Field(() => ID)
   id: string;
 
-  @Column()
-  @Field({ nullable: true })
-  name?: string;
+  @Column({ unique: true })
+  @Field()
+  customerId: string;
 
-  @Column()
-  @Field({ nullable: true })
-  email?: string;
+  @ManyToOne(() => User, (user) => user.customers)
+  @Field(() => User)
+  user: User;
 
-  @Column()
+  @Column({ nullable: true })
   @Field({ nullable: true })
-  phone?: string;
+  name: string;
+
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  email: string;
+
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  phone: string;
 
   @OneToMany(() => Transaction, (transaction) => transaction.customer)
   @Field(() => [Transaction], { nullable: 'itemsAndList' })
-  transactions?: Transaction[];
+  transactions: Transaction[];
 
-  @CreateDateColumn({ default: new Date() })
+  @CreateDateColumn()
   @Field(() => Date)
   createdDate: string;
 
-  @UpdateDateColumn({ default: new Date() })
+  @UpdateDateColumn()
   @Field(() => Date)
   updatedDate: Date;
 
-  constructor(partial: Partial<Customer>) {
+  constructor(partial?: Partial<Customer>) {
     Object.assign(this, partial);
   }
 }

@@ -16,6 +16,6 @@ import { VariantResolver } from './variant.resolver';
     ItemCategoryModule,
   ],
   providers: [ItemsResolver, ItemsService, VariantService, VariantResolver],
-  exports: [VariantService],
+  exports: [VariantService, ItemsService],
 })
 export class ItemsModule {}

@@ -13,7 +13,12 @@ import { CreateCustomerInput } from './dto/create-customer.input';
 import { UpdateCustomerInput } from './dto/update-customer.input';
 import { TransactionsService } from '../transactions/transactions.service';
 import { Transaction } from '../transactions/entities/transaction.entity';
+import { GqlAuthGuard } from '../auth/gql-auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { CurrentUser } from '../auth/auth-user.decorator';
+import { User } from '../users/entities/user.entity';
 
+@UseGuards(GqlAuthGuard)
 @Resolver(() => Customer)
 export class CustomersResolver {
   constructor(
@@ -34,8 +39,11 @@ export class CustomersResolver {
   }
 
   @Query(() => Customer, { name: 'customer' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.customersService.findOne(id);
+  findOne(
+    @CurrentUser() user: User,
+    @Args('id', { type: () => String }) id: string,
+  ) {
+    return this.customersService.findOne(id, user);
   }
 
   @Mutation(() => Customer)

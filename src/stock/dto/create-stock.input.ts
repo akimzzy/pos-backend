@@ -18,18 +18,18 @@ export class CreateStockInput {
 
   @IsUUID()
   @IsOptional()
-  @Field(() => ID)
-  transactionId: string;
+  @Field(() => ID, { nullable: true })
+  transactionId?: string;
 
   @IsNumber()
   @IsNotEmpty()
   @Field(() => Int)
   stockQuantity: number;
 
-  @IsNotEmpty()
-  @IsEnum(StockType)
-  @Field(() => StockType)
-  type: StockType;
+  // @IsNotEmpty()
+  // @IsEnum(StockType)
+  // @Field(() => StockType)
+  // type: StockType;
 
   @IsNotEmpty()
   @IsEnum(StockReason)

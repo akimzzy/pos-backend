@@ -8,6 +8,6 @@ export class CreateVariantInput {
   @Field(() => Int)
   price: number;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Int, { nullable: true, defaultValue: 0 })
   quantity: number;
 }

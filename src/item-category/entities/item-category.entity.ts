@@ -30,11 +30,11 @@ export class ItemCategory {
   @ManyToMany(() => Item, (item) => item.categories, { onDelete: 'CASCADE' })
   items: Item[];
 
-  @CreateDateColumn({ default: new Date() })
+  @CreateDateColumn()
   @Field(() => Date)
   createdDate: string;
 
-  @UpdateDateColumn({ default: new Date() })
+  @UpdateDateColumn()
   @Field(() => Date)
   updatedDate: Date;
 

@@ -1,10 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { TransactionsService } from './transactions.service';
 import { Transaction } from './entities/transaction.entity';
 import { CreateTransactionInput } from './dto/create-transaction.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/gql-auth.guard';
+import { CurrentUser } from '../auth/auth-user.decorator';
+import { User } from '../users/entities/user.entity';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(() => Transaction)
@@ -13,15 +15,16 @@ export class TransactionsResolver {
 
   @Mutation(() => Transaction)
   createTransaction(
+    @CurrentUser() user: User,
     @Args('createTransactionInput')
     createTransactionInput: CreateTransactionInput,
   ) {
-    return this.transactionsService.create(createTransactionInput);
+    return this.transactionsService.create(user, createTransactionInput);
   }
 
   @Query(() => [Transaction], { name: 'transactions' })
-  findAll() {
-    return this.transactionsService.findAll();
+  findAll(@CurrentUser() user: User) {
+    return this.transactionsService.findAll(user);
   }
 
   @Query(() => Transaction, { name: 'transaction' })
@@ -38,10 +41,5 @@ export class TransactionsResolver {
       updateTransactionInput.id,
       updateTransactionInput,
     );
-  }
-
-  @Mutation(() => Transaction)
-  removeTransaction(@Args('id', { type: () => Int }) id: number) {
-    return this.transactionsService.remove(id);
   }
 }

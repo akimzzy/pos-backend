@@ -45,11 +45,11 @@ export class Item {
   @Field(() => [Variant])
   variants: Variant[];
 
-  @CreateDateColumn({ default: new Date() })
+  @CreateDateColumn()
   @Field(() => Date)
   createdDate: string;
 
-  @UpdateDateColumn({ default: new Date() })
+  @UpdateDateColumn()
   @Field(() => Date)
   updatedDate: Date;
 

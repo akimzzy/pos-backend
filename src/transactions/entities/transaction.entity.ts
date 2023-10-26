@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { TransactionItem } from '../../transaction-item/entities/transaction-item.entity';
 import { Stock } from '../../stock/entities/stock.entity';
+import { User } from '../../users/entities/user.entity';
 
 @ObjectType()
 @Entity()
@@ -21,7 +22,7 @@ export class Transaction {
 
   @Column()
   @Field(() => Int)
-  ammount: number;
+  amount: number;
 
   @Field(() => [TransactionItem], { nullable: false })
   @OneToMany(
@@ -32,17 +33,21 @@ export class Transaction {
 
   @Field(() => Customer, { nullable: false })
   @ManyToOne(() => Customer, (customer) => customer.transactions)
-  customer: number;
+  customer: Customer;
+
+  @Field(() => User, { nullable: false })
+  @ManyToOne(() => User, (user) => user.transactions)
+  user: User;
 
   @OneToMany(() => Stock, (stock) => stock.transaction)
   @Field(() => [Stock])
   stocks: Stock[];
 
-  @CreateDateColumn({ default: new Date() })
+  @CreateDateColumn()
   @Field(() => Date)
   createdDate: string;
 
-  @UpdateDateColumn({ default: new Date() })
+  @UpdateDateColumn()
   @Field(() => Date)
   updatedDate: Date;
 

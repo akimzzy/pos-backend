@@ -52,14 +52,14 @@ export class Variant {
     () => TransactionItem,
     (transactionItem) => transactionItem.variant,
   )
-  @Field(() => [TransactionItem])
+  @Field(() => [TransactionItem], { nullable: true })
   transactionItems: TransactionItem[];
 
-  @CreateDateColumn({ default: new Date() })
+  @CreateDateColumn()
   @Field(() => Date)
   createdDate: string;
 
-  @UpdateDateColumn({ default: new Date() })
+  @UpdateDateColumn()
   @Field(() => Date)
   updatedDate: Date;
 

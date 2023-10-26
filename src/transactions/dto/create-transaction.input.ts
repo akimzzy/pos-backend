@@ -1,7 +1,17 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { CreateTransactionItemInput } from '../../transaction-item/dto/create-transaction-item.input';
 
 @InputType()
 export class CreateTransactionInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @IsString()
+  @IsOptional()
+  @Field(() => String, { nullable: true })
+  customerId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsArray()
+  @Field(() => [CreateTransactionItemInput])
+  items: CreateTransactionItemInput[];
 }

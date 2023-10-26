@@ -18,6 +18,7 @@ export class BranchesService {
 
   async create(createBranchInput: CreateBranchInput) {
     const user = await this.userService.findOne(createBranchInput.userId);
+    // TODO: Check if branch name is taken
     const newBranch = new Branch({ ...createBranchInput, user });
     return this.branchRepository.save(newBranch);
   }

@@ -23,8 +23,7 @@ input CreateBranchInput {
 }
 
 input CreateCustomerInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  phone: String!
 }
 
 input CreateItemCategoryInput {
@@ -42,35 +41,37 @@ input CreateItemInput {
 input CreateStockInput {
   reason: StockReason!
   stockQuantity: Int!
-  transactionId: ID!
-  type: StockType!
+  transactionId: ID
   variantId: ID!
 }
 
 input CreateTransactionInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  customerId: String
+  items: [CreateTransactionItemInput!]!
 }
 
 input CreateTransactionItemInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  quantity: Int!
+  transactionId: ID
+  variantId: ID!
 }
 
 input CreateVariantInput {
   name: String!
   price: Int!
-  quantity: Int
+  quantity: Int = 0
 }
 
 type Customer {
   createdDate: DateTime!
+  customerId: String!
   email: String
   id: ID!
   name: String
   phone: String
   transactions: [Transaction!]!
   updatedDate: DateTime!
+  user: User!
 }
 
 """
@@ -116,14 +117,12 @@ type Mutation {
   createItemCategory(createItemCategoryInput: CreateItemCategoryInput!): ItemCategory!
   createStock(createStockInput: CreateStockInput!): Stock!
   createTransaction(createTransactionInput: CreateTransactionInput!): Transaction!
-  createTransactionItem(createTransactionItemInput: CreateTransactionItemInput!): TransactionItem!
   createVariants(createVariantsInput: [CreateVariantInput!]!, itemId: String!): [Variant!]!
   login(email: String!, password: String!): LoginResponse!
   removeBranch(id: String!): Branch!
   removeCustomer(id: Int!): Customer!
   removeItem(id: Int!): Item!
   removeItemsCategory(id: String!): DeleteResponse!
-  removeTransaction(id: Int!): Transaction!
   removeTransactionItem(id: Int!): TransactionItem!
   removeVariants(createVariantInput: [String!]!): DeleteResponse!
   updateBranch(updateBranchInput: UpdateBranchInput!): Branch!
@@ -138,7 +137,7 @@ type Mutation {
 type Query {
   branch(id: String!): Branch!
   branches: [Branch!]!
-  customer(id: Int!): Customer!
+  customer(id: String!): Customer!
   customers: [Customer!]!
   item(id: String!): Item!
   itemCategories: [ItemCategory!]!
@@ -156,7 +155,7 @@ type Stock {
   id: ID!
   reason: StockReason!
   stockQuantity: Int!
-  transaction: Transaction!
+  transaction: Transaction
   type: StockType!
   updatedDate: DateTime!
   user: User!
@@ -180,17 +179,18 @@ enum StockType {
 }
 
 type Transaction {
-  ammount: Int!
+  amount: Int!
   createdDate: DateTime!
   customer: Customer!
   id: ID!
   stocks: [Stock!]!
   transactionItems: [TransactionItem!]!
   updatedDate: DateTime!
+  user: User!
 }
 
 type TransactionItem {
-  ammount: Int!
+  amount: Int!
   createdDate: DateTime!
   id: ID!
   quantity: Int!
@@ -207,9 +207,8 @@ input UpdateBranchInput {
 }
 
 input UpdateCustomerInput {
-  """Example field (placeholder)"""
-  exampleField: Int
   id: Int!
+  phone: String
 }
 
 input UpdateItemCategoryInput {
@@ -222,26 +221,29 @@ input UpdateItemInput {
 }
 
 input UpdateTransactionInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  customerId: String
   id: Int!
+  items: [CreateTransactionItemInput!]
 }
 
 input UpdateTransactionItemInput {
-  """Example field (placeholder)"""
-  exampleField: Int
   id: Int!
+  quantity: Int
+  transactionId: ID
+  variantId: ID
 }
 
 type User {
   branches: [Branch!]!
   categories: [ItemCategory!]!
   createdDate: DateTime!
+  customers: [Customer!]!
   email: String!
   id: ID!
   items: [Item!]!
   password: String
   stocks: [Stock!]!
+  transactions: [Transaction!]!
   updatedDate: DateTime!
 }
 
@@ -255,6 +257,6 @@ type Variant {
   quantity: Int
   stockTracking: Boolean!
   stocks: [Stock!]!
-  transactionItems: [TransactionItem!]!
+  transactionItems: [TransactionItem!]
   updatedDate: DateTime!
 }

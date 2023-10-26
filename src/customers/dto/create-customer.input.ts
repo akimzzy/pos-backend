@@ -1,7 +1,10 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
+import { IsMobilePhone, IsPhoneNumber } from 'class-validator';
 
 @InputType()
 export class CreateCustomerInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @IsMobilePhone()
+  @IsPhoneNumber()
+  @Field(() => String)
+  phone: string;
 }

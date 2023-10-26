@@ -7,12 +7,13 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
   OneToMany,
 } from 'typeorm';
 import { Item } from '../../items/entities/item.entity';
 import { ItemCategory } from '../../item-category/entities/item-category.entity';
 import { Stock } from '../../stock/entities/stock.entity';
+import { Customer } from '../../customers/entities/customer.entity';
+import { Transaction } from '../../transactions/entities/transaction.entity';
 
 @ObjectType()
 @Entity()
@@ -30,7 +31,7 @@ export class User {
   @Exclude()
   password?: string;
 
-  @ManyToOne(() => Branch, (branch) => branch.user)
+  @OneToMany(() => Branch, (branch) => branch.user)
   @Field(() => [Branch])
   branches: Branch[];
 
@@ -45,6 +46,14 @@ export class User {
   @OneToMany(() => Stock, (stock) => stock.user)
   @Field(() => [Stock])
   stocks: Stock[];
+
+  @OneToMany(() => Customer, (customer) => customer.user)
+  @Field(() => [Customer])
+  customers: Customer[];
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  @Field(() => [Transaction])
+  transactions: Transaction[];
 
   @CreateDateColumn()
   @Field(() => Date)

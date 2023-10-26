@@ -44,7 +44,7 @@ export class Stock {
   reason: StockReason;
 
   @ManyToOne(() => Transaction, (transaction) => transaction.stocks)
-  @Field(() => Transaction)
+  @Field(() => Transaction, { nullable: true })
   transaction: Transaction;
 
   @ManyToOne(() => Variant, (variant) => variant.stocks)
