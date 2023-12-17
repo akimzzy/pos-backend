@@ -31,8 +31,8 @@ export class User {
   @Exclude()
   password?: string;
 
-  @OneToMany(() => Branch, (branch) => branch.user)
-  @Field(() => [Branch])
+  @OneToMany(() => Branch, (branch) => branch.user, { eager: true })
+  @Field(() => [Branch], { nullable: true })
   branches: Branch[];
 
   @OneToMany(() => Item, (item) => item.user)

@@ -20,6 +20,10 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { email } });
   }
 
+  async findAll(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
+
   async create({ email, password }: CreateUserInput): Promise<User> {
     try {
       let newUser = await this.findOneByEmail(email);

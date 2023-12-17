@@ -147,6 +147,8 @@ type Query {
   transaction(id: String!): Transaction!
   transactionItem(id: Int!): TransactionItem!
   transactions: [Transaction!]!
+  user: User!
+  users: [User!]!
 }
 
 type Stock {
@@ -234,7 +236,7 @@ input UpdateTransactionItemInput {
 }
 
 type User {
-  branches: [Branch!]!
+  branches: [Branch!]
   categories: [ItemCategory!]!
   createdDate: DateTime!
   customers: [Customer!]!
